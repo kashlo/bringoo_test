@@ -3,31 +3,32 @@ import 'dart:ui';
 import 'package:bringoo_test/theme.dart';
 import 'package:bringoo_test/ui/store_selector.dart';
 import 'package:flutter/material.dart';
+import 'package:rubber/rubber.dart';
 
 class LandingScreen extends StatefulWidget {
   @override
   _LandingScreenState createState() => _LandingScreenState();
 }
 
-class _LandingScreenState extends State<LandingScreen> {
+class _LandingScreenState extends State<LandingScreen> with SingleTickerProviderStateMixin {
   final PageController pageViewController = PageController(
     viewportFraction: 0.57,
     initialPage: 0,
   );
-  final scaffoldState = GlobalKey<ScaffoldState>();
+  RubberAnimationController bottomSheetController;
 
   @override
   void initState() {
-    Future.delayed(Duration(seconds: 0)).then((_) {
-      showBottomOrdersSheet();
-    });
+    bottomSheetController = RubberAnimationController(
+      vsync: this,
+      duration: Duration(seconds: 1),
+    );
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldState,
       body: buildBody(context),
     );
   }
@@ -40,17 +41,12 @@ class _LandingScreenState extends State<LandingScreen> {
           fit: BoxFit.fill
         )
       ),
-      child: SafeArea(
-        child: Column(
-          children: [
-            SizedBox(height: 12),
-            buildHeader(),
-            SizedBox(height: 34),
-            buildCards(),
-            SizedBox(height: 34),
-            buildMenu()
-          ],
-        ),
+      child: RubberBottomSheet(
+        headerHeight: 80,
+        header: buildBottomSheetHeader(),
+        upperLayer: buildBottomSheet(),
+        lowerLayer: buildContent(),
+        animationController: bottomSheetController,
       ),
     );
   }
@@ -84,6 +80,22 @@ class _LandingScreenState extends State<LandingScreen> {
               ],
             )
           )
+        ],
+      ),
+    );
+  }
+
+  buildContent(){
+    return SafeArea(
+      bottom: false,
+      child: Column(
+        children: [
+          SizedBox(height: 12),
+          buildHeader(),
+          SizedBox(height: 34),
+          buildCards(),
+          SizedBox(height: 34),
+          buildMenu(),
         ],
       ),
     );
@@ -239,51 +251,19 @@ class _LandingScreenState extends State<LandingScreen> {
 
   buildBottomSheet(){
     return Container(
-      height: 200,
       padding: EdgeInsets.symmetric(horizontal: ThemeProvider.horizontalPadding),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(16),
-          topRight: Radius.circular(16)
-        )
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SizedBox(height: 15),
-          Center(
-            child: Container(
-              width: 70,
-              height: 5,
-              decoration: BoxDecoration(
-                color: ThemeProvider.lightBlue.withOpacity(0.3),
-                borderRadius: BorderRadius.circular(4)
-              ),
-            ),
-          ),
-          SizedBox(height: 10),
-          Text(
-            "My orders",
-            style: TextStyle(
-              fontSize: 17,
-              color: ThemeProvider.lightBlue
-            )
-          ),
-          SizedBox(height: 17),
-          Expanded(
-            child: ListView.separated(
-              itemCount: 10,
-              itemBuilder: (context, index) {
-                return buildDeliveryItem();
-              },
-              separatorBuilder: (context, index) {
-                return SizedBox(height: 10,);
-              },
-            ),
-          )
-        ],
+      child: ListView.separated(
+        padding: EdgeInsets.zero,
+        itemCount: 10,
+        itemBuilder: (context, index) {
+          return buildDeliveryItem();
+        },
+        separatorBuilder: (context, index) {
+          return SizedBox(height: 10,);
+        },
       ),
     );
   }
@@ -344,14 +324,48 @@ class _LandingScreenState extends State<LandingScreen> {
     );
   }
 
-  void showBottomOrdersSheet() {
-    scaffoldState.currentState.showBottomSheet((context) => buildBottomSheet());
-  }
-
   void openStoreLocatorScreen() {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => StoreSelectorScreen()),
+    );
+  }
+
+  Widget buildBottomSheetHeader() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: ThemeProvider.horizontalPadding),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(16),
+          topRight: Radius.circular(16)
+        )
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(height: 15),
+          Center(
+            child: Container(
+              width: 70,
+              height: 5,
+              decoration: BoxDecoration(
+                color: ThemeProvider.lightBlue.withOpacity(0.3),
+                borderRadius: BorderRadius.circular(4)
+              ),
+            ),
+          ),
+          SizedBox(height: 10),
+          Text(
+            "My orders",
+            style: TextStyle(
+              fontSize: 17,
+              color: ThemeProvider.lightBlue
+            )
+          ),
+        ]
+      ),
     );
   }
 }

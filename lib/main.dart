@@ -12,7 +12,21 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Bringoo',
       theme: ThemeProvider.themeData,
+      builder: (context, child) {
+        return ScrollConfiguration(
+          behavior: NoScrollEffectBehavior(),
+          child: child,
+        );
+      },
       home: LandingScreen(),
     );
+  }
+}
+
+// disables scroll glow effect for entire application
+class NoScrollEffectBehavior extends ScrollBehavior {
+  @override
+  Widget buildViewportChrome(BuildContext context, Widget child, AxisDirection axisDirection) {
+    return child;
   }
 }

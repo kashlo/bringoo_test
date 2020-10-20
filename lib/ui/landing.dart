@@ -176,7 +176,7 @@ class _LandingScreenState extends State<LandingScreen> with SingleTickerProvider
           ),
           buildCardItem(
             label: "New \nListings",
-            bottomButtonLabel: "SHow listings",
+            bottomButtonLabel: "Show listings",
             bottomButtonColor: ThemeProvider.green,
             image: "card_1_bg"
           ),

@@ -241,7 +241,7 @@ class _StoreSelectorScreenState extends State<StoreSelectorScreen> {
             Text(
               label,
               style: TextStyle(
-                fontSize: 24,
+                fontSize: 20,
                 fontWeight: FontWeight.bold,
                 color: ThemeProvider.darkBlue
               )

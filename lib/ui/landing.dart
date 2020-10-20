@@ -14,11 +14,12 @@ class _LandingScreenState extends State<LandingScreen> {
     viewportFraction: 0.57,
     initialPage: 0,
   );
+  final scaffoldState = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     Future.delayed(Duration(seconds: 0)).then((_) {
-      showBottomSheet();
+      showBottomOrdersSheet();
     });
     super.initState();
   }
@@ -26,8 +27,8 @@ class _LandingScreenState extends State<LandingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldState,
       body: buildBody(context),
-      // bottomSheet: buildBottomSheet(),
     );
   }
 
@@ -339,16 +340,8 @@ class _LandingScreenState extends State<LandingScreen> {
     );
   }
 
-  void showBottomSheet() {
-    showModalBottomSheet(
-      context: context,
-      barrierColor: Colors.transparent,
-    // isDismissible: false,
-      enableDrag: true,
-      builder: (builder) {
-        return buildBottomSheet();
-      }
-    );
+  void showBottomOrdersSheet() {
+    scaffoldState.currentState.showBottomSheet((context) => buildBottomSheet());
   }
 
   void openStoreLocatorScreen() {

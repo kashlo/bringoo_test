@@ -13,14 +13,6 @@ class _StoreSelectorScreenState extends State<StoreSelectorScreen> {
   );
 
   @override
-  void initState() {
-    Future.delayed(Duration(seconds: 0)).then((_) {
-      showBottomSheet();
-    });
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ThemeProvider.green,
@@ -42,6 +34,15 @@ class _StoreSelectorScreenState extends State<StoreSelectorScreen> {
   }
 
   buildBody() {
+    return Column(
+      children: [
+        buildHeader(),
+        buildContent()
+      ],
+    );
+  }
+
+  buildHeader(){
     return Container(
       padding: EdgeInsets.symmetric(horizontal: ThemeProvider.horizontalPadding),
       child: Column(
@@ -70,42 +71,42 @@ class _StoreSelectorScreenState extends State<StoreSelectorScreen> {
               fontWeight: FontWeight.bold,
               height: 1.2
             )
+          ),
+          SizedBox(height: 70),
+        ],
+      ),
+    );
+  }
+
+  buildContent(){
+    return Expanded(
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(16),
+            topRight: Radius.circular(16)
           )
-        ],
-      ),
-    );
-  }
-
-  void showBottomSheet() {
-    showModalBottomSheet(
-        context: context,
-        barrierColor: Colors.transparent,
-        // isDismissible: false,
-        enableDrag: true,
-        builder: (builder) {
-          return buildBottomSheet();
-        }
-    );
-  }
-
-  buildBottomSheet(){
-    return Container(
-      height: 700,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(16),
-          topRight: Radius.circular(16)
-        )
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SizedBox(height: 10,),
-          buildFavoriteStores(),
-          buildAllStores()
-        ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: 10,),
+            buildFavoriteStores(),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: ThemeProvider.horizontalPadding),
+              child: Text(
+                "All shops",
+                style: TextStyle(
+                  color: ThemeProvider.blue,
+                  fontSize: 16
+                )
+              ),
+            ),
+            SizedBox(height: 10,),
+            buildAllStores()
+          ],
+        ),
       ),
     );
   }
@@ -220,7 +221,6 @@ class _StoreSelectorScreenState extends State<StoreSelectorScreen> {
                             bottomRight: Radius.circular(0),
                             bottomLeft: Radius.circular(8)
                           )
-                        // shape: BoxShape.circle(20)
                         ),
                         child: Row(
                           children: [
@@ -301,30 +301,19 @@ class _StoreSelectorScreenState extends State<StoreSelectorScreen> {
   }
 
   buildAllStores() {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: ThemeProvider.horizontalPadding),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "All shops",
-            style: TextStyle(
-              color: ThemeProvider.blue,
-              fontSize: 16
-            )
-          ),
-          SizedBox(height: 10,),
-          ListView.separated(
-            shrinkWrap: true,
-            itemCount: 2,
-            itemBuilder: (context, index) {
-              return buildStoreItem(logo: "meyers", name: "Meyer’s Frischecenter");
-            },
-            separatorBuilder: (context, index) {
-              return SizedBox(height: 10,);
-            },
-          ),
-        ],
+    return Expanded(
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: ThemeProvider.horizontalPadding),
+        child: ListView.separated(
+          shrinkWrap: true,
+          itemCount: 20,
+          itemBuilder: (context, index) {
+            return buildStoreItem(logo: "meyers", name: "Meyer’s Frischecenter");
+          },
+          separatorBuilder: (context, index) {
+            return SizedBox(height: 10,);
+          },
+        ),
       ),
     );
   }

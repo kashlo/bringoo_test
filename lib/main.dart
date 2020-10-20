@@ -12,6 +12,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Bringoo',
       theme: ThemeProvider.themeData,
+      debugShowCheckedModeBanner: false,
       builder: (context, child) {
         return ScrollConfiguration(
           behavior: NoScrollEffectBehavior(),

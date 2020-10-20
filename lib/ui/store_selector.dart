@@ -20,11 +20,13 @@ class _StoreSelectorScreenState extends State<StoreSelectorScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
+          onPressed: (){},
           icon: Image.asset("assets/icons/drawer.png", height: 24)
         ),
         title: Image.asset("assets/images/logo.png", width: 86),
         actions: [
           IconButton(
+            onPressed: (){},
             icon: Image.asset("assets/icons/bell.png", height: 24)
           )
         ],

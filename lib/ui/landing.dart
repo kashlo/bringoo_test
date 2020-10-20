@@ -76,7 +76,11 @@ class _LandingScreenState extends State<LandingScreen> {
                     shape: BoxShape.circle,
                   ),
                 ),
-                Image.asset("assets/icons/bell.png", height: 24, color: ThemeProvider.darkBlue,),
+                Image.asset(
+                  "assets/icons/bell_active.png",
+                  height: 24,
+                  color: ThemeProvider.darkBlue
+                ),
               ],
             )
           )

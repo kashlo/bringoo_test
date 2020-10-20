@@ -21,7 +21,7 @@ class _LandingScreenState extends State<LandingScreen> with SingleTickerProvider
   void initState() {
     bottomSheetController = RubberAnimationController(
       vsync: this,
-      duration: Duration(seconds: 1),
+      duration: Duration(milliseconds: 1000),
     );
     super.initState();
   }
@@ -42,7 +42,7 @@ class _LandingScreenState extends State<LandingScreen> with SingleTickerProvider
         )
       ),
       child: RubberBottomSheet(
-        headerHeight: 80,
+        headerHeight: 70,
         header: buildBottomSheetHeader(),
         upperLayer: buildBottomSheet(),
         lowerLayer: buildContent(),
@@ -225,7 +225,6 @@ class _LandingScreenState extends State<LandingScreen> with SingleTickerProvider
                       bottomRight: Radius.circular(0),
                       bottomLeft: Radius.circular(8)
                     )
-                    // shape: BoxShape.circle(20)
                   ),
                   child: Row(
                     children: [
@@ -263,7 +262,7 @@ class _LandingScreenState extends State<LandingScreen> with SingleTickerProvider
         },
         separatorBuilder: (context, index) {
           return SizedBox(height: 10,);
-        },
+        }
       ),
     );
   }
@@ -276,9 +275,7 @@ class _LandingScreenState extends State<LandingScreen> with SingleTickerProvider
       ),
       child: ListTile(
         onTap: (){},
-        // tileColor: ThemeProvider.beige.withOpacity(0.15),
         contentPadding: EdgeInsets.fromLTRB(19, 18, 26, 18),
-        // tileColor: Colors.blue,
         leading: Image.asset("assets/icons/route.png", height: 24,),
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -341,9 +338,10 @@ class _LandingScreenState extends State<LandingScreen> with SingleTickerProvider
           topRight: Radius.circular(16)
         )
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
+      child: ListView(
+        shrinkWrap: true,
+        padding: EdgeInsets.zero,
+        physics: NeverScrollableScrollPhysics(),
         children: [
           SizedBox(height: 15),
           Center(
